@@ -18,6 +18,12 @@
     "react-dom": "18.2.0"
   },
   "eslintConfig": {
-    "extends": "./node_modules/standard/eslintrc.json"
+    "extends": "./node_modules/standard/eslintrc.json",
+    "rules": {
+      "semi": [
+        2,
+        "always"
+      ]
+    }
   }
 }
