@@ -1,22 +1,15 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import { getRandomFact } from './services/facts';
 
-const CAT_ENDPOINT_RANDOM_FACT = 'https://catfact.ninja/fact';
 const CAT_PREFIX_IMAGE_URL = 'https://cataas.com';
-// const CAT_ENDPOINT_IMAGE_URL = `https://cataas.com/cat/says/${firstWord}?size=50&color=red&jason=true`;
+
 export function App () {
   const [fact, setFact] = useState();
   const [imageUrl, setImageUrl] = useState();
 
-  // can't use axios/react query, not allowed
-  // get the cat fact
   useEffect(() => {
-    fetch(CAT_ENDPOINT_RANDOM_FACT)
-      .then((response) => response.json())
-      .then((data) => {
-        const { fact } = data;
-        setFact(fact);
-      });
+    getRandomFact().then((newFact) => setFact(newFact));
   }, []);
 
   // get the cat image url
@@ -34,10 +27,16 @@ export function App () {
         setImageUrl(url);
       });
   }, [fact]);
+
+  const handleClick = async () => {
+    const newFact = await getRandomFact();
+    setFact(newFact);
+  };
   return (
     <main>
       <h1>App de mascotas</h1>
       <section>
+        <button onClick={handleClick}>Get new fact</button>
         {fact && <p>Fact: {fact}</p>}
         {imageUrl && (
           <img
