@@ -7,27 +7,33 @@ const CAT_PREFIX_IMAGE_URL = 'https://cataas.com';
 export function App () {
   const [fact, setFact] = useState();
   const [imageUrl, setImageUrl] = useState();
+
   // can't use axios/react query, not allowed
+  // get the cat fact
   useEffect(() => {
     fetch(CAT_ENDPOINT_RANDOM_FACT)
       .then((response) => response.json())
       .then((data) => {
         const { fact } = data;
         setFact(fact);
-
-        const firstThreeWords = fact.split(' ', 3).join(' ');
-        console.log(firstThreeWords);
-
-        fetch(
-          `https://cataas.com/cat/says/${firstThreeWords}?size=50&color=red&json=true`
-        )
-          .then((res) => res.json())
-          .then((response) => {
-            const { url } = response;
-            setImageUrl(url);
-          });
       });
   }, []);
+
+  // get the cat image url
+  useEffect(() => {
+    if (!fact) return;
+
+    const firstThreeWords = fact.split(' ', 3).join(' ');
+
+    fetch(
+      `https://cataas.com/cat/says/${firstThreeWords}?size=50&color=red&json=true`
+    )
+      .then((res) => res.json())
+      .then((response) => {
+        const { url } = response;
+        setImageUrl(url);
+      });
+  }, [fact]);
   return (
     <main>
       <h1>App de mascotas</h1>
