@@ -2,8 +2,6 @@ import './App.css';
 import { useCatFacts } from './hooks/useCatFacts';
 import { useCatImage } from './hooks/useCatImage';
 
-const CAT_PREFIX_IMAGE_URL = 'https://cataas.com';
-
 export function App () {
   const { fact, refreshRandomFact } = useCatFacts();
   const { imageUrl } = useCatImage({ fact });
@@ -18,12 +16,7 @@ export function App () {
       <section>
         <button onClick={handleClick}>Get new fact</button>
         {fact && <p>Fact: {fact}</p>}
-        {imageUrl && (
-          <img
-            src={`${CAT_PREFIX_IMAGE_URL}${imageUrl}`}
-            alt='image of a cat'
-          />
-        )}
+        {imageUrl && <img src={imageUrl} alt='image of a cat' />}
       </section>
     </main>
   );
