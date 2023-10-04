@@ -4,15 +4,10 @@ import { getRandomFact } from './services/facts';
 
 const CAT_PREFIX_IMAGE_URL = 'https://cataas.com';
 
-export function App () {
-  const [fact, setFact] = useState();
+// get the cat image url
+function useCatImage ({ fact }) {
   const [imageUrl, setImageUrl] = useState();
 
-  useEffect(() => {
-    getRandomFact().then((newFact) => setFact(newFact));
-  }, []);
-
-  // get the cat image url
   useEffect(() => {
     if (!fact) return;
 
@@ -27,6 +22,15 @@ export function App () {
         setImageUrl(url);
       });
   }, [fact]);
+  return { imageUrl };
+}
+export function App () {
+  const [fact, setFact] = useState();
+  const { imageUrl } = useCatImage({ fact });
+
+  useEffect(() => {
+    getRandomFact().then((newFact) => setFact(newFact));
+  }, []);
 
   const handleClick = async () => {
     const newFact = await getRandomFact();
